@@ -21,7 +21,7 @@ Given an image and a natural-language prompt, produce a binary mask for:
 - **CSVLogger** for training curves
 - **Gradient clipping** (max_norm=1.0)
 
-**Fine-tuning strategy**: Freeze the CLIP backbone entirely, train only the CLIPSeg decoder (~1.1M / 150.7M params trainable, 0.75%). Unfreezing CLIP vision layers was tried and overfit on this data scale (~2.4 k training images) — see `Final report.md` for the ablation. The released model uses **DiceBCE loss** + **negative-prompt augmentation** for genuine text conditioning.
+**Fine-tuning strategy**: Freeze the CLIP backbone entirely, train only the CLIPSeg decoder (~1.1M / 150.7M params trainable, 0.75%). Unfreezing CLIP vision layers was tried and overfit on this data scale (~2.4 k training images) — see `report.md` for the ablation. The released model uses **DiceBCE loss** + **negative-prompt augmentation** for genuine text conditioning.
 
 **Why CLIPSeg?** It natively supports text-conditioned segmentation, is available in HuggingFace Transformers, and is efficient enough to fine-tune on a single GPU. For absolute SOTA, Grounded SAM 2 or OpenWorldSAM would be alternatives but are significantly more complex to fine-tune end-to-end.
 

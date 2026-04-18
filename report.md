@@ -209,6 +209,12 @@ Dice loss helps both classes, with the larger gain on Taping (+8.5 mIoU) where t
 
 ---
 
+## Experiment 4 — Unfreezing the CLIP vision encoder (negative result)
+
+We tried unfreezing the last two CLIP vision-encoder layers (the ones that actually feed the CLIPSeg decoder via `extract_layers = [3, 6, 9]`) on top of the decoder, with BCE loss and everything else identical to Experiment 2. The run **did not converge** — val mIoU plateaued well below the decoder-only baselines and never recovered. We did not pursue this further; freezing CLIP is the right choice at this data scale.
+
+---
+
 ## Experiment 5 — Decoder-only fine-tune with DiceBCE + negative-prompt augmentation
 
 Identical to Experiment 3 with one addition: **negative-prompt augmentation** during training. With probability `p = 0.10` per training sample, we replace the sample's prompt with a prompt sampled from the **other dataset** and force the target mask to all zeros. Concretely:
@@ -332,7 +338,7 @@ Two clean deltas:
 
 - The task is **text-conditioned** segmentation — Exp 5 is the only configuration that genuinely conditions on the text input (cross-prompt IoU 0.00–0.02 vs 0.72–0.86 for Exp 3).
 - The 0.5-point mIoU loss vs Exp 3 is within run-to-run noise and is a good trade for closing the prompt-blindness failure mode.
-- Decoder-only is the right unfreezing choice for this data scale (~2.4 k training images): Exp 4 (decoder + CLIP vision layers, BCE) was attempted and overfits — its test mIoU dropped to **0.296** (best val 0.4608 → val→test gap of 0.165, vs ~0.009 for decoder-only runs, i.e. ~18× larger), so we exclude it from the recommended recipe.
+- Decoder-only is the right unfreezing choice for this data scale (~2.4 k training images) — Experiment 4 (decoder + CLIP vision layers) did not converge, so it is excluded from the recommended recipe.
 
 ### Training Curves
 

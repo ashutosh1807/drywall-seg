@@ -38,7 +38,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 THRESH_PROB = 0.5
 SUPPRESSION_TOL = 0.01
 
-# Default checkpoint — final recommended model (see Final report.md).
+# Default checkpoint — final recommended model (see report.md).
 DEFAULT_CKPT = config.CHECKPOINT_DIR / "best_model.pt"
 
 
